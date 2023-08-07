@@ -11,7 +11,7 @@ from torch.utils.data.sampler import BatchSampler
 from torch.utils.data.dataloader import default_collate
 
 from tqdm import *
-import wandb
+# import wandb
 
 seed = 1
 random.seed(seed)
@@ -102,8 +102,8 @@ if args.gpu_id != -1:
 LOG_DIR = args.LOG_DIR + '/logs_{}/{}_{}_embedding{}_alpha{}_mrg{}_{}_lr{}_batch{}{}'.format(args.dataset, args.model, args.loss, args.sz_embedding, args.alpha, 
                                                                                             args.mrg, args.optimizer, args.lr, args.sz_batch, args.remark)
 # Wandb Initialization
-wandb.init(project=args.dataset + '_ProxyAnchor', notes=LOG_DIR)
-wandb.config.update(args)
+# wandb.init(project=args.dataset + '_ProxyAnchor', notes=LOG_DIR)
+# wandb.config.update(args)
 
 os.chdir('data/')
 data_root = os.getcwd()
@@ -249,7 +249,7 @@ for epoch in range(0, args.nb_epochs):
                 
         # Logging Evaluation Score
         for i in range(6):
-            wandb.log({"R@{}".format(10**i): Recalls[i]}, step=epoch)
+            print({"R@{}".format(10**i): Recalls[i]})
         
         # Best model save
         if best_recall[0] < Recalls[0]:
