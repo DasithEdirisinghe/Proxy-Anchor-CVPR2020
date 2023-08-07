@@ -252,7 +252,7 @@ for epoch in range(0, args.nb_epochs):
             print({"R@{}".format(10**i): Recalls[i]})
         
         # Best model save
-        if best_recall[0] < Recalls[0]:
+        if best_recall[0] <= Recalls[0]:
             best_recall = Recalls
             best_epoch = epoch
             if not os.path.exists('{}'.format(LOG_DIR)):
