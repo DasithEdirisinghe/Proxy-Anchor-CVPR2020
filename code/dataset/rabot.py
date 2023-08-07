@@ -12,9 +12,9 @@ class Rabot(BaseDataset):
         num_classes = 22
 
         if self.mode == 'train':
-            self.classes = range(0, 15)
+            self.classes = range(0, 11)
         elif self.mode == 'eval':
-            self.classes = range(15, num_classes)
+            self.classes = range(11, num_classes)
 
         BaseDataset.__init__(self, self.root, self.mode, self.transform)
         # Use torchvision.datasets.ImageFolder to load the dataset from the folder structure
