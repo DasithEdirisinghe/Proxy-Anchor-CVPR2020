@@ -31,7 +31,7 @@ def calc_recall_at_k(T, Y, k):
 
 
 def predict_batchwise(model, dataloader):
-    device = "cuda"
+    device = "cpu"
     model_is_training = model.training
     model.eval()
     
@@ -46,7 +46,7 @@ def predict_batchwise(model, dataloader):
                 # i = 2: sz_batch * indices
                 if i == 0:
                     # move images to device of model (approximate device)
-                    J = model(J.cuda())
+                    J = model(J)
 
                 for j in J:
                     A[i].append(j)
@@ -77,7 +77,7 @@ def evaluate_cos(model, dataloader):
     
     cos_sim = F.linear(X, X)
     Y = T[cos_sim.topk(1 + K)[1][:,1:]]
-    Y = Y.float().cpu()
+    Y = Y.float()
     
     recall = []
     for k in [1, 2, 4, 8, 16, 32]:
@@ -147,14 +147,14 @@ def evaluate_cos_SOP(model, dataloader):
             xs = torch.stack(xs,dim=0)
             cos_sim = F.linear(xs,X)
             y = T[cos_sim.topk(1 + K)[1][:,1:]]
-            Y.append(y.float().cpu())
+            Y.append(y.float())
             xs = []
             
     # Last Loop
     xs = torch.stack(xs,dim=0)
     cos_sim = F.linear(xs,X)
     y = T[cos_sim.topk(1 + K)[1][:,1:]]
-    Y.append(y.float().cpu())
+    Y.append(y.float())
     Y = torch.cat(Y, dim=0)
 
     # calculate recall @ 1, 2, 4, 8
